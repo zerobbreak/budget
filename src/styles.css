@@ -1,0 +1,246 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/caveat";
+@import "@fontsource/architects-daughter";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Architects Daughter", "Caveat Variable", cursive;
+  --font-hand: "Architects Daughter", "Caveat Variable", cursive;
+  --font-script: "Caveat Variable", cursive;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --radius: 0.625rem;
+  color-scheme: light;
+  --background: oklch(0.97 0.012 85);
+  --foreground: oklch(0.28 0.04 285);
+  --card: oklch(0.99 0.008 85);
+  --card-foreground: oklch(0.28 0.04 285);
+  --popover: oklch(0.99 0.008 85);
+  --popover-foreground: oklch(0.28 0.04 285);
+  --primary: oklch(0.48 0.16 285);
+  --primary-foreground: oklch(0.99 0.01 85);
+  --secondary: oklch(0.94 0.02 85);
+  --secondary-foreground: oklch(0.3 0.04 285);
+  --muted: oklch(0.93 0.018 85);
+  --muted-foreground: oklch(0.5 0.04 285);
+  --accent: oklch(0.93 0.03 285);
+  --accent-foreground: oklch(0.3 0.05 285);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.48 0.12 285 / 22%);
+  --input: oklch(0.48 0.12 285 / 18%);
+  --ring: oklch(0.48 0.16 285);
+  --chart-1: oklch(0.5 0.16 285);
+  --chart-2: oklch(0.55 0.12 250);
+  --chart-3: oklch(0.48 0.1 310);
+  --chart-4: oklch(0.62 0.14 85);
+  --chart-5: oklch(0.58 0.12 20);
+  --sidebar: oklch(0.95 0.016 80);
+  --sidebar-foreground: oklch(0.28 0.04 285);
+  --sidebar-primary: oklch(0.48 0.16 285);
+  --sidebar-primary-foreground: oklch(0.99 0.01 85);
+  --sidebar-accent: oklch(0.92 0.025 285);
+  --sidebar-accent-foreground: oklch(0.3 0.05 285);
+  --sidebar-border: oklch(0.48 0.12 285 / 18%);
+  --sidebar-ring: oklch(0.48 0.16 285);
+  --sketch-ink: oklch(0.45 0.14 285 / 42%);
+  --sketch-ink-strong: oklch(0.4 0.16 285 / 68%);
+  --dot-grid: oklch(0.45 0.14 285 / 14%);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.13 0.025 285);
+  --foreground: oklch(0.96 0.01 285);
+  --card: oklch(0.17 0.03 285);
+  --card-foreground: oklch(0.96 0.01 285);
+  --popover: oklch(0.17 0.03 285);
+  --popover-foreground: oklch(0.96 0.01 285);
+  --primary: oklch(0.72 0.16 285);
+  --primary-foreground: oklch(0.98 0.01 285);
+  --secondary: oklch(0.22 0.035 285);
+  --secondary-foreground: oklch(0.96 0.01 285);
+  --muted: oklch(0.2 0.03 285);
+  --muted-foreground: oklch(0.68 0.03 285);
+  --accent: oklch(0.24 0.05 285);
+  --accent-foreground: oklch(0.96 0.01 285);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(0.72 0.08 285 / 14%);
+  --input: oklch(0.72 0.08 285 / 18%);
+  --ring: oklch(0.72 0.16 285);
+  --chart-1: oklch(0.72 0.16 285);
+  --chart-2: oklch(0.62 0.12 285);
+  --chart-3: oklch(0.52 0.1 285);
+  --chart-4: oklch(0.78 0.14 285);
+  --chart-5: oklch(0.84 0.12 285);
+  --sidebar: oklch(0.115 0.028 285);
+  --sidebar-foreground: oklch(0.94 0.01 285);
+  --sidebar-primary: oklch(0.72 0.16 285);
+  --sidebar-primary-foreground: oklch(0.98 0.01 285);
+  --sidebar-accent: oklch(0.2 0.04 285);
+  --sidebar-accent-foreground: oklch(0.96 0.01 285);
+  --sidebar-border: oklch(0.72 0.08 285 / 12%);
+  --sidebar-ring: oklch(0.72 0.16 285);
+  --sketch-ink: oklch(0.72 0.16 285 / 55%);
+  --sketch-ink-strong: oklch(0.78 0.17 285 / 85%);
+  --dot-grid: oklch(0.72 0.16 285 / 10%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    margin: 0;
+    background-image:
+      radial-gradient(
+        circle at 1px 1px,
+        var(--dot-grid) 1px,
+        transparent 0
+      );
+    background-size: 22px 22px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Sketch theme: hand-drawn, wobbly-outline styling                    */
+/* ------------------------------------------------------------------ */
+
+@layer components {
+  .sketch-panel {
+    position: relative;
+    border-radius: 22px 8px 20px 10px/10px 20px 8px 22px !important;
+    border: 1.75px solid var(--sketch-ink) !important;
+  }
+
+  .sketch-panel::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border: 1.5px solid var(--sketch-ink);
+    border-radius: 18px 24px 10px 22px/22px 10px 24px 18px;
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .sketch-panel-tight::before {
+    inset: -3px;
+  }
+
+  .sketch-badge {
+    border-radius: 14px 7px 13px 6px/7px 13px 6px 14px !important;
+  }
+
+  .sketch-tilt-a {
+    transform: rotate(-0.6deg);
+  }
+
+  .sketch-tilt-b {
+    transform: rotate(0.5deg);
+  }
+
+  .sketch-tilt-a:hover,
+  .sketch-tilt-b:hover {
+    transform: rotate(0deg);
+  }
+
+  .sketch-underline {
+    position: relative;
+    display: inline-block;
+  }
+
+  .sketch-underline::after {
+    content: "";
+    position: absolute;
+    left: -2px;
+    right: -4px;
+    bottom: -6px;
+    height: 8px;
+    background-color: var(--sketch-ink-strong);
+    opacity: 0.75;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 C 40 2, 70 10, 100 5 S 160 2, 198 7' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / 100% 100% no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 C 40 2, 70 10, 100 5 S 160 2, 198 7' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / 100% 100% no-repeat;
+  }
+
+  .sketch-icon {
+    stroke-width: 2.25px;
+  }
+
+  .sketch-divider {
+    border-style: dashed !important;
+  }
+
+  .sketch-btn {
+    border-radius: 16px 9px 15px 8px/9px 15px 8px 16px !important;
+    border-width: 1.75px !important;
+    box-shadow: 2.5px 2.5px 0 0 var(--sketch-ink-strong);
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease;
+  }
+
+  .sketch-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3.5px 3.5px 0 0 var(--sketch-ink-strong);
+  }
+
+  .sketch-btn:active:not([aria-haspopup]) {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 0 var(--sketch-ink-strong);
+  }
+}

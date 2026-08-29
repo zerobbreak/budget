@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model Account {
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  createdAt    DateTime      @default(now())
+  transactions Transaction[]
+}
+
+model Category {
+  id           Int             @id @default(autoincrement())
+  name         String          @unique
+  type         TransactionType
+  createdAt    DateTime        @default(now())
+  transactions Transaction[]
+}
+
+model Transaction {
+  id         Int             @id @default(autoincrement())
+  name       String
+  amount     Int
+  type       TransactionType
+  accountId  Int
+  categoryId Int
+  occurredAt DateTime        @default(now())
+  createdAt  DateTime        @default(now())
+  account    Account         @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  category   Category        @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@index([occurredAt])
+  @@index([type])
+}
+
+model StockFavorite {
+  id           Int       @id @default(autoincrement())
+  symbol       String    @unique
+  targetShares Int?
+  targetDate   DateTime?
+  createdAt    DateTime  @default(now())
+}
+
+/** Single-row table of user-configurable app settings (no auth/multi-user yet). */
+model AppSettings {
+  id              Int      @id @default(autoincrement())
+  benchmarkSymbol String   @default("SPY")
+  benchmarkLabel  String   @default("S&P 500 (SPY)")
+  savingsRate     Float    @default(5)
+  refreshHours    Int      @default(168)
+  updatedAt       DateTime @updatedAt
+}
+
+/** Cached trailing annual return for a benchmark symbol, refreshed on a configurable interval. */
+model BenchmarkRateCache {
+  id           Int      @id @default(autoincrement())
+  symbol       String   @unique
+  annualReturn Float
+  asOf         String
+  fetchedAt    DateTime @default(now())
+}

@@ -50,6 +50,13 @@ for (const file of files) {
     process.exit(1)
   }
 
+  if (/\bcreateSelectorCreator\$1\b/.test(source) && !/\b(?:var|let|const|function)\s+createSelectorCreator\$1\b/.test(source)) {
+    console.error(
+      `Invalid SSR bundle: ${file} references createSelectorCreator$1 without declaring it.`,
+    )
+    process.exit(1)
+  }
+
   const result = spawnSync(process.execPath, ['--check', file], {
     stdio: 'inherit',
   })

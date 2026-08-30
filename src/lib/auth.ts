@@ -26,7 +26,8 @@ export const auth = betterAuth({
   },
   advanced: {
     database: {
-      joins: true,
+      // AuthAccount is renamed in Prisma; Better Auth join keys don't match camelCase relations.
+      joins: false,
     },
   },
   plugins: [tanstackStartCookies()],

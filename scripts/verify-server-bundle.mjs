@@ -1,8 +1,17 @@
-import { readdir, readFile } from 'node:fs/promises'
+import { access, readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 
 const serverDir = join(process.cwd(), '.output/server')
+
+async function pathExists(path) {
+  try {
+    await access(path)
+    return true
+  } catch {
+    return false
+  }
+}
 
 async function collectModuleFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true })
@@ -22,6 +31,13 @@ async function collectModuleFiles(directory) {
   }
 
   return files
+}
+
+if (!(await pathExists(serverDir))) {
+  console.log(
+    'Skipping server bundle verification (.output/server not found — expected on Vercel builds).',
+  )
+  process.exit(0)
 }
 
 const files = await collectModuleFiles(serverDir)

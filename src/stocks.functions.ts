@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 
+import { ensureSession } from './auth.functions.js'
 import { findCuratedStock } from './lib/stocks-data.js'
 import type { StocksPageData } from './stocks.types.js'
 
@@ -53,8 +54,9 @@ function requireFutureDateInput(value: unknown) {
 
 export const getStocksPageData = createServerFn({ method: 'GET' }).handler(
   async (): Promise<StocksPageData> => {
+    const session = await ensureSession()
     const { getStocksPageDataImpl } = await import('./stocks.server.js')
-    return getStocksPageDataImpl()
+    return getStocksPageDataImpl(session.user.id)
   },
 )
 
@@ -63,8 +65,9 @@ export const toggleFavoriteStock = createServerFn({ method: 'POST' })
     symbol: requireSymbol(requireObject(data).symbol),
   }))
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { toggleFavoriteStockImpl } = await import('./stocks.server.js')
-    await toggleFavoriteStockImpl(data.symbol)
+    await toggleFavoriteStockImpl(session.user.id, data.symbol)
     return { ok: true as const }
   })
 
@@ -79,7 +82,8 @@ export const setStockSavingsGoal = createServerFn({ method: 'POST' })
     }
   })
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { setStockSavingsGoalImpl } = await import('./stocks.server.js')
-    await setStockSavingsGoalImpl(data)
+    await setStockSavingsGoalImpl(session.user.id, data)
     return { ok: true as const }
   })

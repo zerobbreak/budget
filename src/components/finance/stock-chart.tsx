@@ -39,7 +39,7 @@ export function StockPriceChart({ series }: { series: StockPoint[] }) {
   const padding = Math.max((max - min) * 0.1, 1)
 
   return (
-    <ChartContainer config={chartConfig} className="h-[220px] w-full">
+    <ChartContainer config={chartConfig} className="h-[180px] w-full sm:h-[220px]">
       <LineChart data={series} margin={{ left: 4, right: 12, top: 8, bottom: 4 }}>
         <XAxis
           dataKey="date"

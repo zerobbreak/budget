@@ -1,6 +1,6 @@
 export function DatabaseError({ error }: { error: Error }) {
   return (
-    <div className="mx-auto max-w-xl p-8">
+    <div className="mx-auto max-w-xl p-4 sm:p-8">
       <h1 className="text-2xl font-bold">Could not load finance data</h1>
       <p className="mt-3 text-gray-700">{error.message}</p>
       <p className="mt-2 text-sm text-gray-500">

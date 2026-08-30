@@ -116,20 +116,20 @@ export function InsightsPanel({
 
   return (
     <Card>
-      <CardContent className="space-y-4 px-5 py-5">
+      <CardContent className="space-y-4 px-4 py-4 sm:px-5 sm:py-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex items-center gap-2">
             <Sparkles className="sketch-icon size-4 text-primary" />
             <h2 className="font-hand text-xl font-medium">AI insights</h2>
           </div>
-          <div className="flex gap-1 rounded-lg border border-input p-1">
+          <div className="flex w-full gap-1 rounded-lg border border-input p-1 sm:w-auto">
             {INSIGHT_TABS.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => setInsightType(tab.id)}
                 className={cn(
-                  'rounded-md px-2.5 py-1 text-xs font-medium tracking-[0.05em] uppercase transition-colors',
+                  'flex-1 rounded-md px-2.5 py-1.5 text-xs font-medium tracking-[0.05em] uppercase transition-colors sm:flex-none sm:py-1',
                   insightType === tab.id
                     ? 'bg-primary/20 text-primary'
                     : 'text-muted-foreground hover:text-foreground',

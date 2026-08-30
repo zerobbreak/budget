@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 
+import { ensureSession } from './auth.functions.js'
 import type {
   LedgerType,
   MonthFinanceData,
@@ -112,16 +113,18 @@ function parseTransactionInput(data: unknown): ParsedTransactionInput {
 
 export const getMonthFinance = createServerFn({ method: 'GET' }).handler(
   async (): Promise<MonthFinanceData> => {
+    const session = await ensureSession()
     const { getMonthFinanceData } = await import('./finance.server.js')
-    return getMonthFinanceData()
+    return getMonthFinanceData(session.user.id)
   },
 )
 
 export const createTransaction = createServerFn({ method: 'POST' })
   .validator((data: unknown) => parseTransactionInput(data))
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { createTransactionRecord } = await import('./finance.server.js')
-    await createTransactionRecord(data)
+    await createTransactionRecord(session.user.id, data)
     return { ok: true as const }
   })
 
@@ -135,8 +138,9 @@ export const updateTransaction = createServerFn({ method: 'POST' })
     }
   })
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { updateTransactionRecord } = await import('./finance.server.js')
-    await updateTransactionRecord(data.id, data)
+    await updateTransactionRecord(session.user.id, data.id, data)
     return { ok: true as const }
   })
 
@@ -145,8 +149,9 @@ export const deleteTransaction = createServerFn({ method: 'POST' })
     id: requireId(requireObject(data).id, 'Transaction'),
   }))
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { deleteTransactionRecord } = await import('./finance.server.js')
-    await deleteTransactionRecord(data.id)
+    await deleteTransactionRecord(session.user.id, data.id)
     return { ok: true as const }
   })
 
@@ -155,8 +160,9 @@ export const createAccount = createServerFn({ method: 'POST' })
     name: requireName(requireObject(data).name),
   }))
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { createAccountRecord } = await import('./finance.server.js')
-    await createAccountRecord(data.name)
+    await createAccountRecord(session.user.id, data.name)
     return { ok: true as const }
   })
 
@@ -170,8 +176,9 @@ export const updateAccount = createServerFn({ method: 'POST' })
     }
   })
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { updateAccountRecord } = await import('./finance.server.js')
-    await updateAccountRecord(data.id, data.name)
+    await updateAccountRecord(session.user.id, data.id, data.name)
     return { ok: true as const }
   })
 
@@ -180,8 +187,9 @@ export const deleteAccount = createServerFn({ method: 'POST' })
     id: requireId(requireObject(data).id, 'Account'),
   }))
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { deleteAccountRecord } = await import('./finance.server.js')
-    await deleteAccountRecord(data.id)
+    await deleteAccountRecord(session.user.id, data.id)
     return { ok: true as const }
   })
 
@@ -195,8 +203,9 @@ export const createCategory = createServerFn({ method: 'POST' })
     }
   })
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { createCategoryRecord } = await import('./finance.server.js')
-    await createCategoryRecord(data.name, data.type)
+    await createCategoryRecord(session.user.id, data.name, data.type)
     return { ok: true as const }
   })
 
@@ -211,8 +220,9 @@ export const updateCategory = createServerFn({ method: 'POST' })
     }
   })
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { updateCategoryRecord } = await import('./finance.server.js')
-    await updateCategoryRecord(data.id, data.name, data.type)
+    await updateCategoryRecord(session.user.id, data.id, data.name, data.type)
     return { ok: true as const }
   })
 
@@ -221,7 +231,8 @@ export const deleteCategory = createServerFn({ method: 'POST' })
     id: requireId(requireObject(data).id, 'Category'),
   }))
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { deleteCategoryRecord } = await import('./finance.server.js')
-    await deleteCategoryRecord(data.id)
+    await deleteCategoryRecord(session.user.id, data.id)
     return { ok: true as const }
   })

@@ -96,7 +96,7 @@ export function ExpenseDonutChart({
 
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[280px] w-full"
+          className="mx-auto aspect-square max-h-[220px] w-full sm:max-h-[280px]"
         >
           <PieChart>
             <ChartTooltip
@@ -118,8 +118,8 @@ export function ExpenseDonutChart({
               data={breakdown}
               dataKey="value"
               nameKey="name"
-              innerRadius={68}
-              outerRadius={96}
+              innerRadius="52%"
+              outerRadius="78%"
               paddingAngle={2}
               strokeWidth={2}
             >
@@ -205,7 +205,7 @@ export function ExpenseBarChart({
             <YAxis
               type="category"
               dataKey="name"
-              width={88}
+              width={64}
               tickLine={false}
               axisLine={false}
               tickMargin={8}

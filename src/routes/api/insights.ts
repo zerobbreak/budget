@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
+import { auth } from '@/lib/auth'
 import { APP_CURRENCY, formatCurrency } from '@/lib/finance-data'
 
 type CategoryBreakdown = {
@@ -163,7 +164,9 @@ async function callGemini(
 
   if (!response.ok) {
     const detail = await response.text().catch(() => '')
-    throw new Error(`Gemini request failed (${response.status}): ${detail.slice(0, 200)}`)
+    throw new Error(
+      `Gemini request failed (${response.status}): ${detail.slice(0, 200)}`,
+    )
   }
 
   const json = (await response.json()) as {
@@ -182,6 +185,12 @@ export const Route = createFileRoute('/api/insights')({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const session = await auth.api.getSession({ headers: request.headers })
+
+        if (!session) {
+          return Response.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
         let body: InsightsRequestBody
 
         try {
@@ -216,7 +225,8 @@ export const Route = createFileRoute('/api/insights')({
           const result: InsightsResponse = {
             insight: buildFallbackInsight(body),
             source: 'fallback',
-            error: error instanceof Error ? error.message : 'Gemini request failed.',
+            error:
+              error instanceof Error ? error.message : 'Gemini request failed.',
           }
           return Response.json(result)
         }

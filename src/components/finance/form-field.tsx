@@ -32,7 +32,7 @@ export function NativeSelect({
   return (
     <select
       className={cn(
-        'h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm outline-none transition-colors',
+        'h-10 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base outline-none transition-colors md:h-8 md:text-sm',
         'focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50',
         'disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input/30',
         className,
@@ -65,7 +65,7 @@ export function TypeToggle({
             disabled={disabled}
             onClick={() => onChange(option)}
             className={cn(
-              'h-7 rounded-md text-xs font-medium tracking-[0.12em] uppercase transition-colors',
+              'h-9 rounded-md text-xs font-medium tracking-[0.12em] uppercase transition-colors md:h-7',
               selected
                 ? 'bg-primary/20 text-primary'
                 : 'text-muted-foreground hover:text-foreground',

@@ -54,7 +54,48 @@ export function CategoriesDashboard({ data }: { data: CategoriesData }) {
 
       <section className="space-y-4">
         <SectionLabel>Spending by category</SectionLabel>
-        <Card className="overflow-hidden py-0 ring-1 ring-border/60">
+        <div className="space-y-2 md:hidden">
+          {data.categories.length === 0 ? (
+            <Card>
+              <CardContent className="px-4 py-8 text-center text-sm text-muted-foreground">
+                No categories yet. Add one before logging entries.
+              </CardContent>
+            </Card>
+          ) : (
+            data.categories.map((category) => (
+              <button
+                key={category.id}
+                type="button"
+                onClick={() => editor.editCategory(category)}
+                className="sketch-panel flex w-full items-center justify-between gap-3 bg-card px-4 py-3 text-left"
+              >
+                <span className="min-w-0">
+                  <span className="block truncate font-medium">
+                    {category.name}
+                  </span>
+                  <span className="mt-1 inline-flex">
+                    {category.type === 'income' ? (
+                      <Badge>Income</Badge>
+                    ) : (
+                      <Badge
+                        variant="outline"
+                        className="border-primary/35 text-foreground hover:bg-transparent"
+                      >
+                        Expense
+                      </Badge>
+                    )}
+                  </span>
+                </span>
+                <span className="shrink-0 font-medium tabular-nums">
+                  {category.type === 'income' ? '+' : '-'}
+                  {formatCurrency(category.total)}
+                </span>
+              </button>
+            ))
+          )}
+        </div>
+
+        <Card className="hidden overflow-hidden py-0 ring-1 ring-border/60 md:block">
           <CardContent className="px-0">
             <Table>
               <TableHeader>

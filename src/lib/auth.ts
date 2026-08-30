@@ -5,8 +5,16 @@ import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
 
 import { getPrisma } from '@/db'
+import {
+  getAuthBaseUrl,
+  getAuthSecret,
+  getTrustedOrigins,
+} from '@/lib/auth-env'
 
 export const auth = betterAuth({
+  secret: getAuthSecret(),
+  baseURL: getAuthBaseUrl(),
+  trustedOrigins: getTrustedOrigins(),
   database: prismaAdapter(getPrisma(), {
     provider: 'postgresql',
   }),

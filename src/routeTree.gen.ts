@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as FinanceRouteImport } from './routes/_finance'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as FinanceIndexRouteImport } from './routes/_finance/index'
 import { Route as FinanceAccountsRouteImport } from './routes/_finance/accounts'
 import { Route as FinanceCategoriesRouteImport } from './routes/_finance/categories'
@@ -19,9 +21,20 @@ import { Route as FinanceNetWorthRouteImport } from './routes/_finance/net-worth
 import { Route as FinanceStocksRouteImport } from './routes/_finance/stocks'
 import { Route as ApiAssistantRouteImport } from './routes/api/assistant'
 import { Route as ApiInsightsRouteImport } from './routes/api/insights'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const FinanceRoute = FinanceRouteImport.update({
   id: '/_finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceIndexRoute = FinanceIndexRouteImport.update({
@@ -69,9 +82,16 @@ const ApiInsightsRoute = ApiInsightsRouteImport.update({
   path: '/api/insights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof FinanceIndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/accounts': typeof FinanceAccountsRoute
   '/categories': typeof FinanceCategoriesRoute
   '/expenses': typeof FinanceExpensesRoute
@@ -80,8 +100,11 @@ export interface FileRoutesByFullPath {
   '/stocks': typeof FinanceStocksRoute
   '/api/assistant': typeof ApiAssistantRoute
   '/api/insights': typeof ApiInsightsRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/accounts': typeof FinanceAccountsRoute
   '/categories': typeof FinanceCategoriesRoute
   '/expenses': typeof FinanceExpensesRoute
@@ -91,10 +114,13 @@ export interface FileRoutesByTo {
   '/api/assistant': typeof ApiAssistantRoute
   '/api/insights': typeof ApiInsightsRoute
   '/': typeof FinanceIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_finance': typeof FinanceRouteWithChildren
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/_finance/accounts': typeof FinanceAccountsRoute
   '/_finance/categories': typeof FinanceCategoriesRoute
   '/_finance/expenses': typeof FinanceExpensesRoute
@@ -104,11 +130,14 @@ export interface FileRoutesById {
   '/api/assistant': typeof ApiAssistantRoute
   '/api/insights': typeof ApiInsightsRoute
   '/_finance/': typeof FinanceIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/login'
+    | '/register'
     | '/accounts'
     | '/categories'
     | '/expenses'
@@ -117,8 +146,11 @@ export interface FileRouteTypes {
     | '/stocks'
     | '/api/assistant'
     | '/api/insights'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/login'
+    | '/register'
     | '/accounts'
     | '/categories'
     | '/expenses'
@@ -128,9 +160,12 @@ export interface FileRouteTypes {
     | '/api/assistant'
     | '/api/insights'
     | '/'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/_finance'
+    | '/login'
+    | '/register'
     | '/_finance/accounts'
     | '/_finance/categories'
     | '/_finance/expenses'
@@ -140,12 +175,16 @@ export interface FileRouteTypes {
     | '/api/assistant'
     | '/api/insights'
     | '/_finance/'
+    | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   FinanceRoute: typeof FinanceRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
   ApiAssistantRoute: typeof ApiAssistantRoute
   ApiInsightsRoute: typeof ApiInsightsRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -155,6 +194,20 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof FinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_finance/': {
@@ -220,6 +273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiInsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -248,8 +308,11 @@ const FinanceRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   FinanceRoute: FinanceRouteWithChildren,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
   ApiAssistantRoute: ApiAssistantRoute,
   ApiInsightsRoute: ApiInsightsRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

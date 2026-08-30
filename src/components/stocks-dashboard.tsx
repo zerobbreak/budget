@@ -126,7 +126,7 @@ function GoalForm({ stock }: { stock: FavoriteStock }) {
           onChange={(event) => setTargetDate(event.target.value)}
         />
       </Field>
-      <Button type="submit" disabled={pending}>
+      <Button type="submit" className="w-full sm:w-auto" disabled={pending}>
         {pending ? 'Calculating…' : 'Calculate savings'}
       </Button>
       {error ? (
@@ -187,7 +187,7 @@ function FavoriteStockSection({ stock }: { stock: FavoriteStock }) {
             {stock.name}{' '}
             <span className="text-muted-foreground">({stock.symbol})</span>
           </h2>
-          <div className="mt-1 flex items-center gap-3">
+          <div className="mt-1 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
             <span className="text-lg font-semibold tabular-nums">
               {formatCurrency(stock.quote.price)}
             </span>
@@ -201,6 +201,7 @@ function FavoriteStockSection({ stock }: { stock: FavoriteStock }) {
           type="button"
           variant="outline"
           size="sm"
+          className="w-full sm:w-auto"
           disabled={pending}
           onClick={() =>
             run(() => toggleFavoriteFn({ data: { symbol: stock.symbol } }))

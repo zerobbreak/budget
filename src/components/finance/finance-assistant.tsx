@@ -279,12 +279,12 @@ export function FinanceAssistant() {
     <>
       <div
         className={cn(
-          'fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3',
+          'fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 flex flex-col items-end gap-3 md:right-6 md:bottom-6',
           open && 'pointer-events-auto',
         )}
       >
         {open ? (
-          <div className="sketch-panel flex w-[min(100vw-3rem,22rem)] flex-col overflow-hidden bg-card shadow-lg sm:w-96">
+          <div className="sketch-panel flex w-[min(100vw-2rem,22rem)] max-h-[min(70dvh,32rem)] flex-col overflow-hidden bg-card shadow-lg sm:w-96">
             <header className="flex items-center justify-between border-b border-dashed border-[var(--sketch-ink)] px-4 py-3">
               <div className="flex items-center gap-2">
                 <Sparkles className="sketch-icon size-4 text-primary" />
@@ -303,7 +303,7 @@ export function FinanceAssistant() {
 
             <div
               ref={scrollRef}
-              className="flex max-h-80 flex-col gap-3 overflow-y-auto px-4 py-3"
+              className="flex max-h-[min(48dvh,20rem)] flex-1 flex-col gap-3 overflow-y-auto overscroll-contain px-4 py-3 sm:max-h-80"
             >
               {messages.map((message, index) => (
                 <div

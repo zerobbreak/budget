@@ -139,6 +139,7 @@
   body,
   #app {
     min-height: 100%;
+    overflow-x: clip;
   }
 
   body {
@@ -190,6 +191,15 @@
 
   .sketch-tilt-b {
     transform: rotate(0.5deg);
+  }
+
+  @media (max-width: 767px) {
+    .sketch-tilt-a,
+    .sketch-tilt-b,
+    .sketch-tilt-a:hover,
+    .sketch-tilt-b:hover {
+      transform: none;
+    }
   }
 
   .sketch-tilt-a:hover,

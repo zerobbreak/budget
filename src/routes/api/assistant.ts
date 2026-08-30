@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
+import { auth } from '@/lib/auth'
 import {
   buildFallbackAssistantResponse,
   parseAssistantResponse,
@@ -67,7 +68,10 @@ function parseRequestBody(data: unknown): AssistantRequestBody {
 
   const record = data as Record<string, unknown>
 
-  if (typeof record.message !== 'string' || record.message.trim().length === 0) {
+  if (
+    typeof record.message !== 'string' ||
+    record.message.trim().length === 0
+  ) {
     throw new Error('Message is required.')
   }
 
@@ -173,6 +177,12 @@ export const Route = createFileRoute('/api/assistant')({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const session = await auth.api.getSession({ headers: request.headers })
+
+        if (!session) {
+          return Response.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
         let body: AssistantRequestBody
 
         try {

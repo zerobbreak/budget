@@ -121,7 +121,7 @@ export function ProjectionCard({ data }: { data: ProjectionData }) {
 
   return (
     <Card>
-      <CardContent className="space-y-4 px-5 py-5">
+      <CardContent className="space-y-4 px-4 py-4 sm:px-5 sm:py-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="font-hand text-xl font-medium">Projected growth</h2>

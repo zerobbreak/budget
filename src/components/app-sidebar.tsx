@@ -1,6 +1,8 @@
 import { Link, getRouteApi, useMatchRoute } from '@tanstack/react-router'
+import { LogOut } from 'lucide-react'
 
 import { ThemeToggle } from '@/components/theme-toggle'
+import { Button } from '@/components/ui/button'
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +13,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar'
+import { authClient } from '@/lib/auth-client'
 import { formatCurrency, navItems } from '@/lib/finance-data'
 import { cn } from '@/lib/utils'
 
@@ -19,13 +23,17 @@ const financeRoute = getRouteApi('/_finance')
 
 export function AppSidebar() {
   const matchRoute = useMatchRoute()
+  const { setOpenMobile } = useSidebar()
   const { netWorth } = financeRoute.useLoaderData()
+  const { user } = financeRoute.useRouteContext()
+
+  async function signOut() {
+    await authClient.signOut()
+    window.location.assign('/login')
+  }
 
   return (
-    <Sidebar
-      collapsible="none"
-      className="border-r-[1.75px] border-dashed border-[var(--sketch-ink)]"
-    >
+    <Sidebar className="border-r-[1.75px] border-dashed border-[var(--sketch-ink)]">
       <SidebarHeader className="px-4 py-6">
         <p className="sketch-underline font-hand text-lg font-semibold tracking-tight text-sidebar-foreground">
           Nocturne Finance
@@ -45,9 +53,14 @@ export function AppSidebar() {
                   <SidebarMenuItem key={item.id}>
                     <SidebarMenuButton
                       isActive={isActive}
-                      render={<Link to={item.to} />}
+                      render={
+                        <Link
+                          to={item.to}
+                          onClick={() => setOpenMobile(false)}
+                        />
+                      }
                       className={cn(
-                        'sketch-badge h-9 px-2.5 font-hand',
+                        'sketch-badge h-10 px-2.5 font-hand md:h-9',
                         isActive &&
                           'bg-sidebar-primary/20 text-sidebar-primary-foreground hover:bg-sidebar-primary/25 hover:text-sidebar-primary-foreground data-active:bg-sidebar-primary/20 data-active:text-sidebar-primary-foreground',
                       )}
@@ -71,7 +84,25 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="gap-4 px-4 py-4">
+      <SidebarFooter className="gap-4 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+        <div className="rounded-xl border border-dashed border-sidebar-border bg-sidebar-accent/30 p-3">
+          <p className="truncate text-sm font-medium text-sidebar-foreground">
+            {user.name}
+          </p>
+          <p className="mt-0.5 truncate text-xs text-muted-foreground">
+            {user.email}
+          </p>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="mt-2 w-full justify-start px-1.5 text-muted-foreground"
+            onClick={signOut}
+          >
+            <LogOut />
+            Sign out
+          </Button>
+        </div>
         <div>
           <p className="text-[11px] font-medium tracking-[0.14em] text-muted-foreground uppercase">
             Total cash

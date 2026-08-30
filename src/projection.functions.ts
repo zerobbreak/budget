@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 
+import { ensureSession } from './auth.functions.js'
 import { findBenchmarkOption } from './lib/projection-data.js'
 import type { ProjectionData } from './projection.types.js'
 
@@ -57,8 +58,9 @@ function requireRefreshHours(value: unknown) {
 
 export const getProjectionData = createServerFn({ method: 'GET' }).handler(
   async (): Promise<ProjectionData> => {
+    const session = await ensureSession()
     const { getProjectionDataImpl } = await import('./projection.server.js')
-    return getProjectionDataImpl()
+    return getProjectionDataImpl(session.user.id)
   },
 )
 
@@ -75,7 +77,8 @@ export const updateAppSettings = createServerFn({ method: 'POST' })
     }
   })
   .handler(async ({ data }) => {
+    const session = await ensureSession()
     const { updateAppSettingsImpl } = await import('./projection.server.js')
-    await updateAppSettingsImpl(data)
+    await updateAppSettingsImpl(session.user.id, data)
     return { ok: true as const }
   })

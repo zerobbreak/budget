@@ -18,15 +18,13 @@ import type {
   ProjectionData,
 } from './projection.types.js'
 
-async function getOrCreateSettings() {
+async function getOrCreateSettings(userId: string) {
   const prisma = getPrisma()
-  const existing = await prisma.appSettings.findFirst()
-
-  if (existing) {
-    return existing
-  }
-
-  return prisma.appSettings.create({ data: {} })
+  return prisma.appSettings.upsert({
+    where: { userId },
+    create: { userId },
+    update: {},
+  })
 }
 
 async function getBenchmarkAnnualReturn(
@@ -99,10 +97,12 @@ function toSettingsData(settings: {
   }
 }
 
-export async function getProjectionDataImpl(): Promise<ProjectionData> {
+export async function getProjectionDataImpl(
+  userId: string,
+): Promise<ProjectionData> {
   const [settingsRow, monthFinance] = await Promise.all([
-    getOrCreateSettings(),
-    getMonthFinanceData(),
+    getOrCreateSettings(userId),
+    getMonthFinanceData(userId),
   ])
 
   const settings = toSettingsData(settingsRow)
@@ -131,15 +131,13 @@ export async function getProjectionDataImpl(): Promise<ProjectionData> {
   }
 }
 
-export async function updateAppSettingsImpl(data: AppSettingsUpdate) {
-  const existing = await getPrisma().appSettings.findFirst()
-
-  if (existing) {
-    await getPrisma().appSettings.update({
-      where: { id: existing.id },
-      data,
-    })
-  } else {
-    await getPrisma().appSettings.create({ data })
-  }
+export async function updateAppSettingsImpl(
+  userId: string,
+  data: AppSettingsUpdate,
+) {
+  await getPrisma().appSettings.upsert({
+    where: { userId },
+    create: { userId, ...data },
+    update: data,
+  })
 }

@@ -33,7 +33,41 @@ export function AccountsDashboard({ data }: { data: AccountsData }) {
 
       <section className="space-y-4">
         <SectionLabel>Account balances</SectionLabel>
-        <Card className="overflow-hidden py-0 ring-1 ring-border/60">
+
+        <div className="space-y-2 md:hidden">
+          {data.accounts.length === 0 ? (
+            <Card>
+              <CardContent className="px-4 py-8 text-center text-sm text-muted-foreground">
+                No accounts yet. Add one to start logging money.
+              </CardContent>
+            </Card>
+          ) : (
+            data.accounts.map((account) => (
+              <button
+                key={account.id}
+                type="button"
+                onClick={() => editor.editAccount(account)}
+                className="sketch-panel flex w-full flex-col gap-2 bg-card px-4 py-3 text-left"
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="min-w-0 truncate font-medium">
+                    {account.name}
+                  </span>
+                  <span className="shrink-0 font-semibold tabular-nums">
+                    {account.balance >= 0 ? '+' : '-'}
+                    {formatCurrency(Math.abs(account.balance))}
+                  </span>
+                </span>
+                <span className="flex justify-between gap-3 text-xs text-muted-foreground tabular-nums">
+                  <span>In +{formatCurrency(account.income)}</span>
+                  <span>Out -{formatCurrency(account.expenses)}</span>
+                </span>
+              </button>
+            ))
+          )}
+        </div>
+
+        <Card className="hidden overflow-hidden py-0 ring-1 ring-border/60 md:block">
           <CardContent className="px-0">
             <Table>
               <TableHeader>

@@ -13,84 +13,22 @@ const prisma = new PrismaClient({
 })
 
 async function main() {
-  console.log('Seeding database...')
+  console.log('Clearing finance and authentication data...')
 
-  await prisma.transaction.deleteMany()
-  await prisma.category.deleteMany()
-  await prisma.account.deleteMany()
+  await prisma.$transaction([
+    prisma.transaction.deleteMany(),
+    prisma.stockFavorite.deleteMany(),
+    prisma.appSettings.deleteMany(),
+    prisma.category.deleteMany(),
+    prisma.account.deleteMany(),
+    prisma.session.deleteMany(),
+    prisma.authAccount.deleteMany(),
+    prisma.verification.deleteMany(),
+    prisma.user.deleteMany(),
+    prisma.benchmarkRateCache.deleteMany(),
+  ])
 
-  const savings = await prisma.account.create({
-    data: { name: 'Savings' },
-  })
-
-  const cheque = await prisma.account.create({
-    data: { name: 'Cheque' },
-  })
-
-  const income = await prisma.category.create({
-    data: { name: 'Income', type: 'INCOME' },
-  })
-
-  const transport = await prisma.category.create({
-    data: { name: 'Transport', type: 'EXPENSE' },
-  })
-
-  const bills = await prisma.category.create({
-    data: { name: 'Bills', type: 'EXPENSE' },
-  })
-
-  const food = await prisma.category.create({
-    data: { name: 'Food', type: 'EXPENSE' },
-  })
-
-  const now = new Date()
-
-  await prisma.transaction.createMany({
-    data: [
-      {
-        name: 'Freelance',
-        amount: 5400,
-        type: 'INCOME',
-        accountId: savings.id,
-        categoryId: income.id,
-        occurredAt: now,
-      },
-      {
-        name: 'Bonus',
-        amount: 9000,
-        type: 'INCOME',
-        accountId: cheque.id,
-        categoryId: income.id,
-        occurredAt: now,
-      },
-      {
-        name: 'Uber',
-        amount: 320,
-        type: 'EXPENSE',
-        accountId: cheque.id,
-        categoryId: transport.id,
-        occurredAt: now,
-      },
-      {
-        name: 'Gym',
-        amount: 720,
-        type: 'EXPENSE',
-        accountId: cheque.id,
-        categoryId: bills.id,
-        occurredAt: now,
-      },
-      {
-        name: 'Coffee',
-        amount: 90,
-        type: 'EXPENSE',
-        accountId: cheque.id,
-        categoryId: food.id,
-        occurredAt: now,
-      },
-    ],
-  })
-
-  console.log('Seeded accounts, categories, and transactions')
+  console.log('Cleared finance, authentication, and cached benchmark data')
 }
 
 main()

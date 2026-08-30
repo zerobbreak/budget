@@ -83,8 +83,11 @@ function quoteFromSeries(
   }
 }
 
-export async function getStocksPageDataImpl(): Promise<StocksPageData> {
+export async function getStocksPageDataImpl(
+  userId: string,
+): Promise<StocksPageData> {
   const rows = await getPrisma().stockFavorite.findMany({
+    where: { userId },
     orderBy: { createdAt: 'asc' },
   })
   const favoriteSymbols = new Set(rows.map((row) => row.symbol))
@@ -124,23 +127,27 @@ export async function getStocksPageDataImpl(): Promise<StocksPageData> {
   }
 }
 
-export async function toggleFavoriteStockImpl(symbol: string) {
+export async function toggleFavoriteStockImpl(userId: string, symbol: string) {
   const prisma = getPrisma()
   const existing = await prisma.stockFavorite.findUnique({
-    where: { symbol },
+    where: { userId_symbol: { userId, symbol } },
   })
 
   if (existing) {
-    await prisma.stockFavorite.delete({ where: { symbol } })
+    await prisma.stockFavorite.delete({ where: { id: existing.id, userId } })
   } else {
-    await prisma.stockFavorite.create({ data: { symbol } })
+    await prisma.stockFavorite.create({ data: { userId, symbol } })
   }
 }
 
-export async function setStockSavingsGoalImpl(data: StockSavingsGoalInput) {
+export async function setStockSavingsGoalImpl(
+  userId: string,
+  data: StockSavingsGoalInput,
+) {
   await getPrisma().stockFavorite.upsert({
-    where: { symbol: data.symbol },
+    where: { userId_symbol: { userId, symbol: data.symbol } },
     create: {
+      userId,
       symbol: data.symbol,
       targetShares: data.targetShares,
       targetDate: new Date(`${data.targetDate}T12:00:00`),

@@ -12,6 +12,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { Field } from '@/components/finance/form-field'
+import { financeSheetClassName } from '@/components/finance/page-shell'
 import {
   createAccount,
   deleteAccount,
@@ -79,7 +80,7 @@ export function AccountSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md">
+      <SheetContent className={financeSheetClassName}>
         <SheetHeader>
           <SheetTitle>{isEditing ? 'Edit account' : 'New account'}</SheetTitle>
           <SheetDescription>

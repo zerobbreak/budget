@@ -50,6 +50,46 @@ type TransactionsTableProps = {
   onSelect?: (transaction: TransactionItem) => void
 }
 
+function TransactionCard({
+  transaction,
+  showAccount,
+  showCategory,
+  onSelect,
+}: {
+  transaction: TransactionItem
+  showAccount: boolean
+  showCategory: boolean
+  onSelect?: (transaction: TransactionItem) => void
+}) {
+  const meta = [
+    showAccount ? transaction.account : null,
+    showCategory ? transaction.category : null,
+  ].filter(Boolean)
+
+  return (
+    <button
+      type="button"
+      disabled={!onSelect}
+      onClick={onSelect ? () => onSelect(transaction) : undefined}
+      className={cn(
+        'sketch-panel flex w-full items-start justify-between gap-3 bg-card px-4 py-3 text-left',
+        onSelect && 'cursor-pointer',
+        !onSelect && 'cursor-default',
+      )}
+    >
+      <span className="min-w-0">
+        <span className="block truncate font-medium">{transaction.name}</span>
+        {meta.length > 0 ? (
+          <span className="mt-0.5 block truncate text-xs text-muted-foreground">
+            {meta.join(' · ')}
+          </span>
+        ) : null}
+      </span>
+      <AmountCell transaction={transaction} />
+    </button>
+  )
+}
+
 export function TransactionsTable({
   title = 'Recent transactions',
   transactions,
@@ -64,7 +104,28 @@ export function TransactionsTable({
   return (
     <section className="space-y-4">
       <h2 className="font-hand text-xl font-medium">{title}</h2>
-      <Card className="overflow-hidden py-0">
+
+      <div className="space-y-2 md:hidden">
+        {transactions.length === 0 ? (
+          <Card>
+            <CardContent className="px-4 py-8 text-center text-sm text-muted-foreground">
+              {emptyMessage}
+            </CardContent>
+          </Card>
+        ) : (
+          transactions.map((transaction) => (
+            <TransactionCard
+              key={transaction.id}
+              transaction={transaction}
+              showAccount={showAccount}
+              showCategory={showCategory}
+              onSelect={onSelect}
+            />
+          ))
+        )}
+      </div>
+
+      <Card className="hidden overflow-hidden py-0 md:block">
         <CardContent className="px-0">
           <Table>
             <TableHeader>
@@ -157,7 +218,38 @@ export function SimpleAmountTable({
   return (
     <section className="space-y-4">
       <h2 className="font-hand text-xl font-medium">{title}</h2>
-      <Card className="overflow-hidden py-0">
+
+      <div className="space-y-2 md:hidden">
+        {rows.length === 0 ? (
+          <Card>
+            <CardContent className="px-4 py-8 text-center text-sm text-muted-foreground">
+              {emptyMessage}
+            </CardContent>
+          </Card>
+        ) : (
+          rows.map((row) => (
+            <button
+              key={row.id}
+              type="button"
+              disabled={!onSelect}
+              onClick={onSelect ? () => onSelect(row.id) : undefined}
+              className={cn(
+                'sketch-panel flex w-full items-center justify-between gap-3 bg-card px-4 py-3 text-left',
+                onSelect && 'cursor-pointer',
+                !onSelect && 'cursor-default',
+              )}
+            >
+              <span className="min-w-0 truncate font-medium">{row.name}</span>
+              <span className="shrink-0 font-medium text-foreground tabular-nums">
+                {row.positive ? '+' : '-'}
+                {formatCurrency(row.amount)}
+              </span>
+            </button>
+          ))
+        )}
+      </div>
+
+      <Card className="hidden overflow-hidden py-0 md:block">
         <CardContent className="px-0">
           <Table>
             <TableHeader>

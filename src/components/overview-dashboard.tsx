@@ -25,7 +25,7 @@ export function OverviewDashboard({
         title="Overview"
         totalBalance={totalBalance}
         action={
-          <AddRecordButton onClick={() => editor.addTransaction()}>
+          <AddRecordButton id="tour-add-entry" onClick={() => editor.addTransaction()}>
             Add entry
           </AddRecordButton>
         }

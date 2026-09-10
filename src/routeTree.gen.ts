@@ -16,6 +16,7 @@ import { Route as FinanceIndexRouteImport } from './routes/_finance/index'
 import { Route as FinanceAccountsRouteImport } from './routes/_finance/accounts'
 import { Route as FinanceCategoriesRouteImport } from './routes/_finance/categories'
 import { Route as FinanceExpensesRouteImport } from './routes/_finance/expenses'
+import { Route as FinanceGuideRouteImport } from './routes/_finance/guide'
 import { Route as FinanceIncomeRouteImport } from './routes/_finance/income'
 import { Route as FinanceNetWorthRouteImport } from './routes/_finance/net-worth'
 import { Route as FinanceStocksRouteImport } from './routes/_finance/stocks'
@@ -57,6 +58,11 @@ const FinanceExpensesRoute = FinanceExpensesRouteImport.update({
   path: '/expenses',
   getParentRoute: () => FinanceRoute,
 } as any)
+const FinanceGuideRoute = FinanceGuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => FinanceRoute,
+} as any)
 const FinanceIncomeRoute = FinanceIncomeRouteImport.update({
   id: '/income',
   path: '/income',
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/accounts': typeof FinanceAccountsRoute
   '/categories': typeof FinanceCategoriesRoute
   '/expenses': typeof FinanceExpensesRoute
+  '/guide': typeof FinanceGuideRoute
   '/income': typeof FinanceIncomeRoute
   '/net-worth': typeof FinanceNetWorthRoute
   '/stocks': typeof FinanceStocksRoute
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/accounts': typeof FinanceAccountsRoute
   '/categories': typeof FinanceCategoriesRoute
   '/expenses': typeof FinanceExpensesRoute
+  '/guide': typeof FinanceGuideRoute
   '/income': typeof FinanceIncomeRoute
   '/net-worth': typeof FinanceNetWorthRoute
   '/stocks': typeof FinanceStocksRoute
@@ -124,6 +132,7 @@ export interface FileRoutesById {
   '/_finance/accounts': typeof FinanceAccountsRoute
   '/_finance/categories': typeof FinanceCategoriesRoute
   '/_finance/expenses': typeof FinanceExpensesRoute
+  '/_finance/guide': typeof FinanceGuideRoute
   '/_finance/income': typeof FinanceIncomeRoute
   '/_finance/net-worth': typeof FinanceNetWorthRoute
   '/_finance/stocks': typeof FinanceStocksRoute
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/accounts'
     | '/categories'
     | '/expenses'
+    | '/guide'
     | '/income'
     | '/net-worth'
     | '/stocks'
@@ -154,6 +164,7 @@ export interface FileRouteTypes {
     | '/accounts'
     | '/categories'
     | '/expenses'
+    | '/guide'
     | '/income'
     | '/net-worth'
     | '/stocks'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/_finance/accounts'
     | '/_finance/categories'
     | '/_finance/expenses'
+    | '/_finance/guide'
     | '/_finance/income'
     | '/_finance/net-worth'
     | '/_finance/stocks'
@@ -238,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceExpensesRouteImport
       parentRoute: typeof FinanceRoute
     }
+    '/_finance/guide': {
+      id: '/_finance/guide'
+      path: '/guide'
+      fullPath: '/guide'
+      preLoaderRoute: typeof FinanceGuideRouteImport
+      parentRoute: typeof FinanceRoute
+    }
     '/_finance/income': {
       id: '/_finance/income'
       path: '/income'
@@ -287,6 +306,7 @@ interface FinanceRouteChildren {
   FinanceAccountsRoute: typeof FinanceAccountsRoute
   FinanceCategoriesRoute: typeof FinanceCategoriesRoute
   FinanceExpensesRoute: typeof FinanceExpensesRoute
+  FinanceGuideRoute: typeof FinanceGuideRoute
   FinanceIncomeRoute: typeof FinanceIncomeRoute
   FinanceNetWorthRoute: typeof FinanceNetWorthRoute
   FinanceStocksRoute: typeof FinanceStocksRoute
@@ -297,6 +317,7 @@ const FinanceRouteChildren: FinanceRouteChildren = {
   FinanceAccountsRoute: FinanceAccountsRoute,
   FinanceCategoriesRoute: FinanceCategoriesRoute,
   FinanceExpensesRoute: FinanceExpensesRoute,
+  FinanceGuideRoute: FinanceGuideRoute,
   FinanceIncomeRoute: FinanceIncomeRoute,
   FinanceNetWorthRoute: FinanceNetWorthRoute,
   FinanceStocksRoute: FinanceStocksRoute,

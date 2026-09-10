@@ -362,6 +362,7 @@ export function FinanceAssistant() {
         ) : null}
 
         <Button
+          id="tour-assistant-button"
           type="button"
           size="icon-lg"
           className={cn(

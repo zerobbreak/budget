@@ -45,12 +45,14 @@ export function PageHeader({
 export function AddRecordButton({
   children,
   onClick,
+  id,
 }: {
   children: string
   onClick: () => void
+  id?: string
 }) {
   return (
-    <Button type="button" className="w-full sm:w-auto" onClick={onClick}>
+    <Button id={id} type="button" className="w-full sm:w-auto" onClick={onClick}>
       <Plus className="sketch-icon" />
       {children}
     </Button>

@@ -47,15 +47,17 @@ export function IncomeDashboard({
         </div>
       </section>
 
-      <ProjectionCard data={projection} />
+      <div id="tour-income-extras" className="space-y-6 md:space-y-8">
+        <ProjectionCard data={projection} />
 
-      <InsightsPanel
-        income={data.total}
-        expenses={expensesTotal}
-        surplus={projection.surplus}
-        categories={categories}
-        projection={projection}
-      />
+        <InsightsPanel
+          income={data.total}
+          expenses={expensesTotal}
+          surplus={projection.surplus}
+          categories={categories}
+          projection={projection}
+        />
+      </div>
 
       <TransactionsTable
         title="Income transactions"

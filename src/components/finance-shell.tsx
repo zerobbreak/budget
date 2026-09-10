@@ -2,6 +2,7 @@ import { Outlet, getRouteApi } from '@tanstack/react-router'
 
 import { AppSidebar } from '@/components/app-sidebar'
 import { FinanceEditor } from '@/components/finance/finance-editor'
+import { TourProvider } from '@/components/finance/tour'
 import {
   SidebarInset,
   SidebarProvider,
@@ -27,16 +28,21 @@ function MobileHeader({ cash }: { cash: number }) {
 
 export function FinanceShell() {
   const { catalogs, netWorth } = financeRoute.useLoaderData()
+  const { user } = financeRoute.useRouteContext()
+  const isNewAccount =
+    catalogs.accounts.length === 0 && catalogs.categories.length === 0
 
   return (
     <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset className="min-w-0 bg-background">
-        <MobileHeader cash={netWorth.total} />
-        <FinanceEditor catalogs={catalogs}>
-          <Outlet />
-        </FinanceEditor>
-      </SidebarInset>
+      <TourProvider userId={user.id} isNewAccount={isNewAccount}>
+        <AppSidebar />
+        <SidebarInset className="min-w-0 bg-background">
+          <MobileHeader cash={netWorth.total} />
+          <FinanceEditor catalogs={catalogs}>
+            <Outlet />
+          </FinanceEditor>
+        </SidebarInset>
+      </TourProvider>
     </SidebarProvider>
   )
 }

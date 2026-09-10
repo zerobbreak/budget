@@ -25,7 +25,7 @@ export function AccountsDashboard({ data }: { data: AccountsData }) {
       <PageHeader
         title="Accounts"
         action={
-          <AddRecordButton onClick={editor.addAccount}>
+          <AddRecordButton id="tour-add-account" onClick={editor.addAccount}>
             Add account
           </AddRecordButton>
         }

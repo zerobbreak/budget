@@ -37,7 +37,7 @@ export function CategoriesDashboard({ data }: { data: CategoriesData }) {
       <PageHeader
         title="Categories"
         action={
-          <AddRecordButton onClick={() => editor.addCategory()}>
+          <AddRecordButton id="tour-add-category" onClick={() => editor.addCategory()}>
             Add category
           </AddRecordButton>
         }

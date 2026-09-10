@@ -1,5 +1,5 @@
 import { Link, getRouteApi, useMatchRoute } from '@tanstack/react-router'
-import { LogOut } from 'lucide-react'
+import { BookOpen, LogOut } from 'lucide-react'
 
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
@@ -42,7 +42,7 @@ export function AppSidebar() {
       <SidebarContent className="px-2">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="gap-1">
+            <SidebarMenu id="tour-sidebar-nav" className="gap-1">
               {navItems.map((item) => {
                 const isActive = !!matchRoute({
                   to: item.to,
@@ -93,10 +93,24 @@ export function AppSidebar() {
             {user.email}
           </p>
           <Button
+            id="tour-guide-link"
             type="button"
             variant="ghost"
             size="sm"
-            className="mt-2 w-full justify-start px-1.5 text-muted-foreground"
+            className={cn(
+              'mt-2 w-full justify-start px-1.5 text-muted-foreground',
+              !!matchRoute({ to: '/guide' }) && 'text-sidebar-primary',
+            )}
+            render={<Link to="/guide" onClick={() => setOpenMobile(false)} />}
+          >
+            <BookOpen />
+            Guide
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="w-full justify-start px-1.5 text-muted-foreground"
             onClick={signOut}
           >
             <LogOut />
